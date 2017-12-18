@@ -19,7 +19,7 @@ new_feature_type2 <- function(data_trainm,train_label,data_testm,classes,p,corr,
 
   data_matrixx <- rbind(data_trainm,data_testm)
   data_matrixx <- data.frame(scale(data_matrixx))
-  xx = seq(from=1,to=nrow(data_train),by=1)
+  xx = seq(from=1,to=nrow(data_trainm),by=1)
 
   if(norm==1){
     data_trainm <- data_matrixx[xx,]
