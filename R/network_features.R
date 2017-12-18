@@ -57,6 +57,7 @@ network_features <- function(L='label',data_train,data_test,nf,p,corr,f_type,s,n
   ind_na <- colSums(is.na(new_data))==0
   new_data <- new_data[,ind_na]
 
+  xx = seq(from=1,to=nrow(data_train),by=1)
 
   new_train <- new_data[xx,]
   new_test <- new_data[-xx,]
