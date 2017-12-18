@@ -1,0 +1,54 @@
+---
+title: "Simu Tan CNS"
+author: "Xinying"
+date: "11/30/2017"
+output: html_document
+---
+
+# data and parameters
+```{r}
+xx = 'CNS'
+filename = sprintf("~/Data/Tan_data/%s.txt",xx)
+
+data_matrix <- read.table(filename, sep = ',', skip=1, header = F)
+data_matrix <- data.frame(t(scale(data_matrix)))
+data_label <- read.table(filename, sep = ',', nrows=1, header = F)
+data_label <- as.factor(t(data_label))
+data_matrix$label <- data_label
+
+L='label'
+nf = 50
+p=0.1
+corr=0
+f_type=2
+s=1
+nc=1
+classifier="SVM"
+kern='radial'
+```
+
+# network
+```{r}
+indx <- sample(nrow(data_matrix),floor(nrow(data_matrix)*0.8))
+data_train <- data_matrix[indx,]  # training data
+data_test <- data_matrix[-indx,] # test data
+
+result <- network_classify(L='label',data_train,data_test,nf,p,corr,f_type=2,s,nc,classifier,kern)
+print(result$acc)
+
+```
+
+# new features
+```{r}
+newdata <- network_features(L='label',data_train,data_test,nf,p,corr,f_type=2,s,nc)
+
+train_new_feature <- newdata$new_train
+train_new_feature_center <- train_new_feature - rowMeans(train_new_feature)
+
+plot(train_new_feature,col=newdata$train_label)
+plot(train_new_feature[,1]-train_new_feature[,2],col=newdata$train_label)
+
+plot(train_new_feature_center,col=newdata$train_label)
+
+```
+

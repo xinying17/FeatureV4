@@ -1,5 +1,6 @@
 new_feature_type4 <- function(data_trainm,train_label,data_testm,classes,p,corr,s,nc){
 
+  # add new features to original data
   train_nets <- structure(list(types = character(),
                                featureIDX = list(),
                                nets = list()))

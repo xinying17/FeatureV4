@@ -1,0 +1,48 @@
+---
+title: "Simu Tan prostate2"
+author: "Xinying"
+date: "11/30/2017"
+output: html_document
+---
+```{r}
+library(FeatureV4)
+xx = 'Prostate2'
+filename = sprintf("~/Data/Tan_data/%s.txt",xx)
+
+data_matrix <- data.frame(t(read.table(filename, sep = ',', skip=1, header = F)))
+data_label <- read.table(filename, sep = ',', nrows=1, header = F)
+data_label <- as.factor(t(data_label))
+
+L='label'
+nf = 50
+p=0.1
+corr=0
+f_type=2
+s=1
+nc=1
+classifier="SVM"
+kern='radial'
+
+indx <- sample(nrow(data_matrix),floor(nrow(data_matrix)*0.8))
+```
+
+# normalize cross samples
+```{r}
+data_matrix_n1 <- data.frame(scale(data_matrix))
+data_matrix_n1$label <- data_label
+
+```
+
+# normalize cross features
+```{r}
+data_matrix_n2 <- data.frame(t(scale(t(data_matrix))))
+data_matrix_n2$label <- data_label
+
+```
+
+# loocv result
+```{r}
+accx1 = network_loocv(data_matrix_n1,L,nf,p=0.1,corr=0,f_type=2,s,nc=1,classifier="SVM",kern='radial')
+accx2 = network_loocv(data_matrix_n2,L,nf,p=0.1,corr=0,f_type=2,s,nc=1,classifier="SVM",kern='radial')
+```
+

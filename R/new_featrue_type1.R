@@ -1,5 +1,6 @@
 new_feature_type1 <- function(data_trainm,train_label,data_testm,classes,p,corr,s){
 
+  # feature map with laplacian
   train_nets <- structure(list(types = character(),
                                featureIDX = list(),
                                nets = list()))

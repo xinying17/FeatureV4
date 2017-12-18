@@ -1,5 +1,6 @@
 new_feature_type5 <- function(data_trainm,train_label,data_testm,classes,p,corr,s){
 
+  # network classifier with single network
   train_nets <- structure(list(types = character(),
                                featureIDX = list(),
                                nets = list()))

@@ -1,4 +1,4 @@
-network_features <- function(L='label',data_train,data_test,nf,p,corr,f_type,s,nc)
+network_features <- function(L='label',data_train,data_test,nf,p,corr,f_type,s,nc,norm)
 {
   classes <- unique(data_train$label)
 
@@ -7,6 +7,7 @@ network_features <- function(L='label',data_train,data_test,nf,p,corr,f_type,s,n
 
   data_trainm <- data_train[,colnames(data_train)!=L]
   data_testm <- data_test[,colnames(data_test)!=L]
+
 
   train_label <- data_train$label
   test_label <- data_test$label
@@ -23,22 +24,28 @@ network_features <- function(L='label',data_train,data_test,nf,p,corr,f_type,s,n
     data_testm <- data_testm[,indx]
   }
 
+
+  # feature map
   if(f_type==1){
     new_data <- new_feature_type1(data_trainm,train_label,data_testm,classes,p,corr,s)
   }
 
+  # network classifier with 2 networks
   if(f_type==2){
-    new_data <- new_feature_type2(data_trainm,train_label,data_testm,classes,p,corr,s)
+    new_data <- new_feature_type2(data_trainm,train_label,data_testm,classes,p,corr,s,norm)
   }
 
+  # network classifier with 2*nc networks
   if(f_type==3){
-    new_data <- new_feature_type3(data_trainm,train_label,data_testm,classes,p,corr,s,nc)
+    new_data <- new_feature_type3(data_trainm,train_label,data_testm,classes,p,corr,s,nc,norm)
   }
 
+  # add new features to original data
   if(f_type==4){
     new_data <- new_feature_type4(data_trainm,train_label,data_testm,classes,p,corr,s,nc)
   }
 
+  # network classifier with single network
   if(f_type==5){
     new_data <- new_feature_type5(data_trainm,train_label,data_testm,classes,p,corr,s)
   }
@@ -50,7 +57,7 @@ network_features <- function(L='label',data_train,data_test,nf,p,corr,f_type,s,n
   ind_na <- colSums(is.na(new_data))==0
   new_data <- new_data[,ind_na]
 
-  xx = seq(from=1,to=nrow(data_train),by=1)
+
   new_train <- new_data[xx,]
   new_test <- new_data[-xx,]
 
